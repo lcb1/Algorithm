@@ -31,3 +31,24 @@
 //		cout<<v.size()<<endl;
 //	}
 //} 
+//暴力计算 超时。。。。。。。。。。。
+-------------------------------------------------------------------------------------
+#include <iostream>
+#include  <cmath>
+using namespace std;
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		int n;
+		cin>>n;
+		double sum=1;
+		for(int i=2;i<=n;i++)
+		{
+			sum+=log10(i);
+		}
+		cout<<(int)sum<<endl;
+	}
+}//公式 lg(a1*a2*...*an)=lg(a1)+lg(a2)...+lg(an);
