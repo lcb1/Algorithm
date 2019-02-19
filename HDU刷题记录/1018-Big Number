@@ -1,0 +1,33 @@
+//#include <iostream>
+//#include <vector>
+//using namespace std;
+//int main()
+//{
+//	vector<int> v;
+//	int t,n;
+//	cin>>t;
+//	while(t--)
+//	{
+//		v.clear();
+//		v.push_back(1);
+//		cin>>n;
+//		int res=0;
+//		for(int i=2;i<=n;i++)
+//		{
+//			
+//			for(int j=0;j<v.size();j++)
+//			{
+//				res+=v[j]*i;
+//				v[j]=res%10;
+//				res/=10;
+//			}
+//			while(res)
+//			{
+//				v.push_back(res%10);
+//				res/=10;
+//			}
+//		}
+//		
+//		cout<<v.size()<<endl;
+//	}
+//} 
