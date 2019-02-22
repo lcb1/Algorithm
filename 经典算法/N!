@@ -1,0 +1,22 @@
+vector<int> factorial(int n)
+{
+	vector<int> res;
+	res.push_back(1);
+	for(int i=1;i<=n;i++)
+	{
+		int pos=0;
+		for(int j=0;j<res.size();j++)
+		{
+			pos+=res[j]*i;
+			res[j]=pos%10;
+			pos/=10;
+		}
+		while(pos)
+		{
+			res.push_back(pos%10);
+			pos/=10;
+		}
+	}
+	reverse(res.begin(),res.end());
+	return res;
+}
