@@ -1,0 +1,11 @@
+long long int Pow(int num,int s)
+{
+	long long  int ans=1,base=num;
+	while(s)
+	{
+		if(s&1) ans*=base;
+		base*=base;
+		s>>=1;
+	}
+	return ans;
+}
