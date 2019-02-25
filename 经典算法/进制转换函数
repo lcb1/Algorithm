@@ -1,0 +1,13 @@
+int convert(string s,int K)------K进制转换为十进制
+{
+	int ans=0;
+	char ch;
+	for(int i=0;i<s.size()-1;i++)
+	{
+		if(s[i]<='9')ch='0';else ch='a'-10;
+		ans+=s[i]-ch;
+		ans*=K;
+	}
+	if(s.back()<='9')ch='0';else ch='a'-10;
+	return ans+s.back()-ch;
+}
