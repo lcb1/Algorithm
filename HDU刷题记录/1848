@@ -1,0 +1,52 @@
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+using namespace std;
+int count=1,f[20],sg[1001],sem[1001];
+void fibo()
+{
+	f[0]=1;
+	f[1]=1;
+	for(count=2;f[count-1]<=1000;count++)
+	{
+		f[count]=f[count-2]+f[count-1];
+	}
+}
+void getSG(int n)
+{
+	int i,j;
+	memset(sg,0,sizeof(sg));
+	for(i=1;i<=n;i++)
+	{
+		memset(sem,0,sizeof(sem));
+		for(j=0;f[j]<=i&&j<count;j++)
+		{
+			sem[sg[i-f[j]]]=1;
+		}
+		for(j=0;;j++)
+		{
+			if(!sem[j])
+			{
+				sg[i]=j;
+				break;
+			}
+		}
+		
+	}
+}
+int main()
+{
+	int m,n,p;
+	fibo();
+	getSG(1000);
+	while(cin>>m>>n>>p,m||n||p)
+	{
+		if(sg[m]^sg[n]^sg[p]){
+			cout<<"Fibo";
+		}
+		else{
+			cout<<"Nacci";
+		}
+		cout<<endl;
+	}
+}  
