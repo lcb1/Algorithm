@@ -1,0 +1,98 @@
+//核心算法和思想
+
+package com.superlcb.test;
+
+import java.util.Arrays;
+import java.util.OptionalDouble;
+
+public class Anneal {
+    private static final double Tmin = 1e-8;
+
+    public static Point getResultCore(Function function, double Tmax, double backRate, int k) {
+        double result = Double.MAX_VALUE;
+        double TNow = Tmax;
+        double x[] = new double[k];
+        for (int i = 0; i < k; i++) {
+            x[i] = getX(function);
+        }
+        while (TNow > Tmin) {
+            for (int i = 0; i < k; i++) {
+                double funTemp = function.function(x[i]);
+                double x_new = x[i] + (Math.random() - 0.5) * TNow;
+                if (x_new > function.getXmin() && function.getXmax() > x_new) {
+                    double funTemp_new = function.function(x_new);
+                    if (function.compare(funTemp, funTemp_new)) {
+                        x[i] = x_new;
+                    } else {
+                        double p = 1 / (1 + Math.exp(Math.abs(funTemp_new - funTemp) / TNow));
+                        if (Math.random() < p) {
+                            x[i] = x_new;
+                        }
+                    }
+                }
+            }
+            TNow *= backRate;
+        }
+        Double resy = null;
+        for (int i = 1; i < k; i++) {
+            if (function.compare(function.function(x[0]), function.function(x[i]))) {
+                resy = function.function(x[i]);
+                x[0] = x[i];
+            }
+        }
+        return new Point(x[0], resy);
+    }
+
+    public static double getX(Function function) {
+        return Math.random() * (function.getXmax() - function.getXmin()) + function.getXmin();
+    }
+}
+
+//函数抽象类
+package com.superlcb.test;
+
+public abstract class Function {
+    private double Xmax;
+    private double Xmin;
+    public abstract double function(double x);
+    public abstract boolean compare(double x1,double x2);
+
+    public double getXmax() {
+        return Xmax;
+    }
+
+    public void setXmax(double xmax) {
+        Xmax = xmax;
+    }
+
+    public double getXmin() {
+        return Xmin;
+    }
+
+    public void setXmin(double xmin) {
+        Xmin = xmin;
+    }
+}
+
+
+//测试代码
+
+@Test
+    public void testAnneal() {
+        Point point=Anneal.getResultCore(new Function() {
+            @Override
+            public double function(double x) {
+                this.setXmax(10);
+                this.setXmin(0);
+                return 6 * Math.pow(x, 7) + 8 * Math.pow(x, 6) + 7 * Math.pow(x, 3) - 5 * Math.pow(x, 2)-Math.log(x);
+            }
+
+            @Override
+            public boolean compare(double x1, double x2) {
+                return x1>x2;
+            }
+        }, 100, 0.98, 1000);
+        System.out.println(point.getX());
+        System.out.println(point.getY());
+    }
+
